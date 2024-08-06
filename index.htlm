@@ -154,7 +154,7 @@
 
         function sendEmail(event) {
             event.preventDefault();
-
+ 
             const nome = document.getElementById('nome').value;
             const cognome = document.getElementById('cognome').value;
             const email = document.getElementById('email').value;
