@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dati Aggiuntivi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .radio-group {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+        .radio-group label {
+            margin: 0 10px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        button:hover:not(:disabled) {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dati Aggiuntivi</h1>
+        <form id="datiAggiuntiviForm" onsubmit="sendEmail(event)">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label for="cognome">Cognome</label>
+            <input type="text" id="cognome" name="cognome" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="telefono">Numero di telefono</label>
+            <input type="tel" id="telefono" name="telefono" required>
+
+            <label for="codiceFiscale">Codice Fiscale</label>
+            <input type="text" id="codiceFiscale" name="codiceFiscale" required>
+
+            <label for="comuneNascita">Comune di Nascita</label>
+            <input type="text" id="comuneNascita" name="comuneNascita" required>
+
+            <label for="dataNascita">Data di Nascita</label>
+            <input type="date" id="dataNascita" name="dataNascita" required>
+
+            <h3>Residenza</h3>
+            <label for="residenzaIndirizzo">Indirizzo</label>
+            <input type="text" id="residenzaIndirizzo" name="residenzaIndirizzo" required>
+
+            <label for="residenzaComune">Comune</label>
+            <input type="text" id="residenzaComune" name="residenzaComune" required>
+
+            <label for="residenzaProvincia">Provincia</label>
+            <input type="text" id="residenzaProvincia" name="residenzaProvincia" required>
+
+            <label for="residenzaCivico">Numero Civico</label>
+            <input type="text" id="residenzaCivico" name="residenzaCivico" required>
+
+            <label>La fornitura è per lo stesso indirizzo della residenza?</label>
+            <div class="radio-group">
+                <label>
+                    <input type="radio" name="fornituraDiversa" value="no" checked onclick="toggleFornitura()"> No
+                </label>
+                <label>
+                    <input type="radio" name="fornituraDiversa" value="si" onclick="toggleFornitura()"> Sì
+                </label>
+            </div>
+
+            <div id="fornituraFields" style="display: none;">
+                <h3>Fornitura</h3>
+                <label for="fornituraIndirizzo">Indirizzo</label>
+                <input type="text" id="fornituraIndirizzo" name="fornituraIndirizzo">
+
+                <label for="fornituraComune">Comune</label>
+                <input type="text" id="fornituraComune" name="fornituraComune">
+
+                <label for="fornituraProvincia">Provincia</label>
+                <input type="text" id="fornituraProvincia" name="fornituraProvincia">
+
+                <label for="fornituraCivico">Numero Civico</label>
+                <input type="text" id="fornituraCivico" name="fornituraCivico">
+            </div>
+
+            <label for="pod">Codice POD</label>
+            <input type="text" id="pod" name="pod" required>
+
+            <label for="potenzaImpegnata">Potenza Impegnata (kW)</label>
+            <input type="number" id="potenzaImpegnata" name="potenzaImpegnata" step="0.01" required>
+
+            <label for="pdr">Codice PDR</label>
+            <input type="text" id="pdr" name="pdr" required>
+
+            <button type="submit">Invia</button>
+        </form>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Recupera i dati dal localStorage
+            document.getElementById('nome').value = localStorage.getItem('nome');
+            document.getElementById('cognome').value = localStorage.getItem('cognome');
+            document.getElementById('email').value = localStorage.getItem('email');
+            document.getElementById('telefono').value = localStorage.getItem('telefono');
+        };
+
+        function sendEmail(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('nome').value;
+            const cognome = document.getElementById('cognome').value;
+            const email = document.getElementById('email').value;
+            const telefono = document.getElementById('telefono').value;
+            const codiceFiscale = document.getElementById('codiceFiscale').value;
+            const comuneNascita = document.getElementById('comuneNascita').value;
+            const dataNascita = document.getElementById('dataNascita').value;
+            const residenzaIndirizzo = document.getElementById('residenzaIndirizzo').value;
+            const residenzaComune = document.getElementById('residenzaComune').value;
+            const residenzaProvincia = document.getElementById('residenzaProvincia').value;
+            const residenzaCivico = document.getElementById('residenzaCivico').value;
+            const fornituraDiversa = document.querySelector('input[name="fornituraDiversa"]:checked').value;
+            let fornituraIndirizzo = residenzaIndirizzo, fornituraComune = residenzaComune, fornituraProvincia = residenzaProvincia, fornituraCivico = residenzaCivico;
+
+            if (fornituraDiversa === 'si') {
+                fornituraIndirizzo = document.getElementById('fornituraIndirizzo').value;
+                fornituraComune = document.getElementById('fornituraComune').value;
+                fornituraProvincia = document.getElementById('fornituraProvincia').value;
+                fornituraCivico = document.getElementById('fornituraCivico').value;
+            }
+
+            const pod = document.getElementById('pod').value;
+            const potenzaImpegnata = document.getElementById('potenzaImpegnata').value;
+            const pdr = document.getElementById('pdr').value;
+
+            const corpoEmail = `
+                Nome: ${nome}\n
+                Cognome: ${cognome}\n
+                Email: ${email}\n
+                Telefono: ${telefono}\n
+                Codice Fiscale: ${codiceFiscale}\n
+                Comune di Nascita: ${comuneNascita}\n
+                Data di Nascita: ${dataNascita}\n
+                Residenza:\n                - Indirizzo: ${residenzaIndirizzo}\n
+                - Comune: ${residenzaComune}\n
+                - Provincia: ${residenzaProvincia}\n
+                - Numero Civico: ${residenzaCivico}\n
+                Fornitura:\n
+                - Indirizzo: ${fornituraIndirizzo}\n
+                - Comune: ${fornituraComune}\n
+                - Provincia: ${fornituraProvincia}\n
+                - Numero Civico: ${fornituraCivico}\n
+                Codice POD: ${pod}\n
+                Potenza Impegnata: ${potenzaImpegnata} kW\n
+                Codice PDR: ${pdr}\n
+            `;
+
+            window.location.href = `mailto:commerciale@ddm-soluzioni.it?subject=Richiesta Dati Aggiuntivi&body=${encodeURIComponent(corpoEmail)}`;
+        }
+
+        function toggleFornitura() {
+            const fornituraDiversa = document.querySelector('input[name="fornituraDiversa"]:checked').value;
+            const fornituraFields = document.getElementById('fornituraFields');
+            if (fornituraDiversa === 'si') {
+                fornituraFields.style.display = 'block';
+            } else {
+                fornituraFields.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
